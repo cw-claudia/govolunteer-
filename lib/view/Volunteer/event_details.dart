@@ -26,10 +26,12 @@ class detailspage extends StatefulWidget {
 class _detailspage extends State<detailspage> {
   late String NPO_ID;
   late String eventTitle;
+  late bool hasVolunteered;
   @override
   void initState() {
     NPO_ID = widget.NPO_ID;
     eventTitle = widget.EventTitle;
+    hasVolunteered = false;
 
     super.initState();
   }
@@ -72,55 +74,65 @@ class _detailspage extends State<detailspage> {
               child: const Text('Yes'),
               onPressed: () {
                 //  Application Logic
-                var UserEmail = auth.currentUser?.email;
-                //Variables to store user data
+                var uid = auth.currentUser?.uid;
+
+             getVolunteerDetails()async{
+               //Variables to store user data
                 String? firstName;
                 String? lastName;
                 String? email;
                 String? age;
 
-                //querry users collection to get userdetails
-                Firestore.collection('users')
-                    .where('email', isEqualTo: UserEmail)
-                    .get()
-                    .then((QuerySnapshot v) => v.docs.forEach((element) {
-                          firstName = element['first name'];
-                          lastName = element['last name'];
-                          email = element['email'];
-                          print(email);
-                        }));
+              
+               //querry users collection to get userdetails
+               Firestore.collection('users').doc(uid).get()
+                   .then((value) {
+
+                 firstName = value['first name'];
+                 lastName = value['last name'];
+                 email = value['email'];
+
+                 final volunteerDetails = <String,dynamic>{
+                   'first name': firstName,
+                   'last name': lastName,
+                   'email': email,
+                   // 'age': age,
+                 };
+ 
+                 //Function to save the doc in firebase
+                 FirebaseFirestore.instance
+                     .collection('my_events')
+                     .doc(eventTitle)
+                     .collection('appliedVolunteers')
+                     .doc(uid)//volunteer user ID
+                     .set(volunteerDetails);
+
+               });
+
+
 
                 //create a variable to store the document details
-                var volunteerDetails = <String, dynamic>{
-                  'first name': firstName,
-                  'last name': lastName,
-                  'email': email,
-                  'age': age,
-                };
+               final volunteeredEvents = <String, dynamic>{
+                 'Event_title': eventTitle,
+                 'Event_description': eventDescription,
+                 'Event_location': eventLocation,
 
-                //Function to save the doc in firebase
-                FirebaseFirestore.instance
-                    .collection('my_events')
-                    .doc(eventTitle)
-                    .collection('appliedVolunteers')
-                    .doc(firstName)
-                    .set(volunteerDetails);
+               };
 
-                //variables
-                var volunteeredEvents = <String, dynamic>{
-                  'Event_title': eventTitle,
-                  'Event_description': eventDescription,
-                  'Event_location': eventLocation,
-                  'Volunteers_no': neededVolunteers,
-                };
+               //Function to get volunteers
+               FirebaseFirestore.instance
+                   .collection('users')
+                   .doc(auth.currentUser?.uid)
+                   .collection('application_list')
+                   .doc(eventTitle)
+                   .set(volunteeredEvents);
+             
+             }
 
-                //Function to get volunteers
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc('auth.CurrentUser?.uid')
-                    .collection('application_list')
-                    .doc(eventTitle)
-                    .set(volunteeredEvents);
+                getVolunteerDetails();
+                setState(() {
+                  hasVolunteered = true;
+                });
 
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -303,7 +315,21 @@ class _detailspage extends State<detailspage> {
                                   'Apply',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                onPressed: () => {showMyDialog()}),
+                                onPressed: () => {
+                                  if(hasVolunteered == false){
+                                    showMyDialog()
+                                  }else{
+                                Fluttertoast.showToast(
+                                msg: "Application already made",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.black,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            )
+                                  }
+                                 }),
                           ),
                         ),
 

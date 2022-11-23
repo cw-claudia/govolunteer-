@@ -10,6 +10,19 @@ class ViewVolunteers extends StatefulWidget {
 class _ViewVolunteersState extends State<ViewVolunteers> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Volunteer Information'),
+        centerTitle: true,
+        leading: BackButton(),
+      ),
+
+      body: Column(
+        children: [
+          SizedBox(height: 20,)
+
+        ],
+      ),
+    );
   }
 }
