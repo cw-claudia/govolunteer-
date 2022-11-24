@@ -44,6 +44,11 @@ class _AddEventState extends State<AddEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:AppBar(
+        title: Text('Add Event',
+          style: GoogleFonts.barlowCondensed(fontSize: 40),),
+        centerTitle: true,
+      ),
       body: SafeArea(
           child:SingleChildScrollView(
             child: Form(
@@ -51,14 +56,9 @@ class _AddEventState extends State<AddEvent> {
               child: Column(
                 children: [
                   SizedBox(height:10),
-                  Center(
-                    child: Text('Add Event',
-                      style:
-                      GoogleFonts.barlowCondensed(fontSize: 40),
-                    ),
-                  ),
-                  //Persona Title
-                  SizedBox(height:30),
+
+                  //Event Title
+
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
@@ -150,7 +150,9 @@ class _AddEventState extends State<AddEvent> {
                           child: Text('Create',style: TextStyle(color: Colors.white),),
                           onPressed: ()=>{
                             savetofirebase(),
-                            dispose()
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder:
+                          (context)=>EventsPage()))
 
 
                     }),

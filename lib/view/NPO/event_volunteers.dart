@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_volunter/view/NPO/view_eventvolunteers.dart';
+import 'package:go_volunter/view/NPO/volunteer_info.dart';
 
 class EventVolunteers extends StatefulWidget {
   final String eventTitle;
@@ -15,6 +15,7 @@ class _EventVolunteersState extends State<EventVolunteers> {
   var EventName;
   late String eventTitle;
   String? uid;
+  late String volunteerID;
 
   Future getVolunteers() async {
     var Firestore = FirebaseFirestore.instance;
@@ -56,7 +57,9 @@ class _EventVolunteersState extends State<EventVolunteers> {
                               '${snapshot.data[index].data()["first name"]}' +
                                   '${snapshot.data[index].data()["last name"]}'),
                           subtitle: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+
+                            },
                             child: Text(
                               'See Details',
                               style: TextStyle(color: Colors.blue),
@@ -69,7 +72,7 @@ class _EventVolunteersState extends State<EventVolunteers> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ViewVolunteers()));
+                                      builder: (context) => ViewVolunteers(eventTitle: eventTitle, volunteerID: snapshot.data[index].data()["uid"],)));
                             },
                             child: Icon(
                               Icons.arrow_circle_right,

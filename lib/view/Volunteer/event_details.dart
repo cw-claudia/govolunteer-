@@ -96,6 +96,7 @@ class _detailspage extends State<detailspage> {
                    'first name': firstName,
                    'last name': lastName,
                    'email': email,
+                   'uid': uid
                    // 'age': age,
                  };
  
@@ -116,6 +117,7 @@ class _detailspage extends State<detailspage> {
                  'Event_title': eventTitle,
                  'Event_description': eventDescription,
                  'Event_location': eventLocation,
+                 'NPO_ID' : NPO_ID
 
                };
 

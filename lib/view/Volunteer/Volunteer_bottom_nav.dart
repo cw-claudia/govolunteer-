@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import 'Apply/application_list.dart';
+import 'application_list.dart';
 import 'MapPage.dart';
 import 'NPO_list.dart';
-import 'ViewEventsPage.dart';
+import 'event_list.dart';
 import 'Volunteer_Profile.dart';
 
 class VolunteerBottomNav extends StatefulWidget {
@@ -20,7 +20,6 @@ class _VolunteerBottomNav extends State<VolunteerBottomNav> {
   late PersistentTabController _controller;
   List<Widget> _buildScreens() {
     return [
-      VolunteerMap(),
       NPO_List(),
       ApplicationList(),
       Volunteer_Profile()
@@ -30,12 +29,7 @@ class _VolunteerBottomNav extends State<VolunteerBottomNav> {
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.map),
-        title: ("Map"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
+
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.calendar),
         title: ("Events"),

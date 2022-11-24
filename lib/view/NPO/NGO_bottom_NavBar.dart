@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_volunter/view/NPO/view_eventvolunteers.dart';
+import 'package:go_volunter/view/NPO/volunteer_info.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import 'AddEvent.dart';
@@ -19,9 +19,7 @@ class _NGOBottomNavState extends State<NGOBottomNav> {
   late PersistentTabController _controller;
   List<Widget> _buildScreens() {
     return [
-      AddEvent(),
       EventsPage(),
-      ViewVolunteers(),
       NGOProfile()
       //EventsPage()
     ];
@@ -29,24 +27,14 @@ class _NGOBottomNavState extends State<NGOBottomNav> {
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.plus),
-        title: ("Add Event"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
+
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.calendar),
         title: ("My Events"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.person_2),
-        title: ("Volunteers"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
+
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.profile_circled),
         title: ("Profile"),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'AddEvent.dart';
 import 'event_volunteers.dart';
 
 class EventsPage extends StatefulWidget {
@@ -45,6 +46,13 @@ class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton:
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(
+                    builder: (context)=>AddEvent())); },
+          child:Icon(Icons.add) ,),
         appBar: AppBar(
           title: const Text('Events List',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),

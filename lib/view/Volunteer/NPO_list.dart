@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'ViewEventsPage.dart';
+import 'event_list.dart';
 
 class NPO_List extends StatefulWidget {
   const NPO_List({Key? key}) : super(key: key);

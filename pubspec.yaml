@@ -49,6 +49,7 @@ dependencies:
   device_info_plus: ^8.0.0
   package_info_plus: ^3.0.1
   email_validator: ^2.1.17
+  url_launcher: ^6.1.7
 
 
   intl: ^0.17.0
