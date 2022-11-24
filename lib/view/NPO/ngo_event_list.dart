@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'AddEvent.dart';
@@ -30,6 +32,7 @@ class _EventsPageState extends State<EventsPage> {
     super.initState();
     _EventData = getEvents();
   }
+
 
   Widget deleteBgItem() {
     return Container(
@@ -70,6 +73,7 @@ class _EventsPageState extends State<EventsPage> {
                             child: Column(
                               children: [
                                 ListTile(
+
                                   minVerticalPadding: 12,
                                   focusColor: Colors.blue,
                                   leading: GestureDetector(
@@ -90,10 +94,17 @@ class _EventsPageState extends State<EventsPage> {
                                       .data()['Event_title']),
                                   subtitle: Text(snapshot.data[index]
                                       .data()['Event_location']),
-                                  trailing: Text('Volunteers \n'
-                                          'needed : ' +
-                                      snapshot.data[index]
-                                          .data()['Volunteers_no']),
+                                  trailing: Column(
+                                    children: [
+                                      Text('Volunteers \n'
+                                              'needed : ' +
+                                          snapshot.data[index]
+                                              .data()['Volunteers_no']),
+
+
+
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

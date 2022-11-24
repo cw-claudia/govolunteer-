@@ -36,143 +36,23 @@ class _appliedEvent extends State<appliedEvent> {
     super.initState();
   }
 
+
   var Firestore = FirebaseFirestore.instance;
   var auth = FirebaseAuth.instance;
   Future getEvents() async {
-    QuerySnapshot qn = await Firestore.collection("Event")
-        .doc(auth.currentUser!.uid)
-        .collection("my_events")
+    var uid = auth.currentUser!.uid;
+    QuerySnapshot qn = await Firestore.collection("users")
+        .doc(uid)
+        .collection("application_list")
         .get();
     return qn.docs;
   }
 
-  showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Are you sure?'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('This action cannot be undone.'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                //  Application Logic
-                var uid = auth.currentUser?.uid;
 
-                getVolunteerDetails()async{
-                  //Variables to store user data
-                  String? firstName;
-                  String? lastName;
-                  String? email;
-                  String? age;
-
-
-                  //querry users collection to get userdetails
-                  Firestore.collection('users').doc(uid).get()
-                      .then((value) {
-
-                    firstName = value['first name'];
-                    lastName = value['last name'];
-                    email = value['email'];
-
-                    final volunteerDetails = <String,dynamic>{
-                      'first name': firstName,
-                      'last name': lastName,
-                      'email': email,
-                      'uid': uid
-                      // 'age': age,
-                    };
-
-                    //Function to save the doc in firebase
-                    FirebaseFirestore.instance
-                        .collection('my_events')
-                        .doc(eventTitle)
-                        .collection('appliedVolunteers')
-                        .doc(uid)//volunteer user ID
-                        .set(volunteerDetails);
-
-                  });
-
-
-
-                  //create a variable to store the document details
-                  final volunteeredEvents = <String, dynamic>{
-                    'Event_title': eventTitle,
-                    'Event_description': eventDescription,
-                    'Event_location': eventLocation,
-
-                  };
-
-                  //Function to get volunteers
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(auth.currentUser?.uid)
-                      .collection('application_list')
-                      .doc(eventTitle)
-                      .set(volunteeredEvents);
-
-                }
-
-                getVolunteerDetails();
-                setState(() {
-                  hasVolunteered = true;
-                });
-
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Application Successful')));
-                // Navigator.pushReplacement(
-                //   context,
-                //     MaterialPageRoute(
-                //       builder: (context)
-                //       => NPO_List()));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  late String eventLocation;
-  late String eventDescription;
-  late String neededVolunteers;
-
-  Future getDoc() async {
-    await Firestore.collection('Event')
-        .doc(NPO_ID)
-        .collection('my_events')
-        .doc(eventTitle)
-        .snapshots()
-        .listen((event) {
-      eventDescription = event['Event_description'];
-      eventLocation = event['Event_location'];
-      neededVolunteers = event['Volunteers_no'];
-    });
-  }
-
-// Widget getEventDetails() =>
 
   @override
   Widget build(BuildContext context) {
-    getDoc();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -183,9 +63,9 @@ class _appliedEvent extends State<appliedEvent> {
           leading: BackButton(),
         ),
         body: StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.collection('Event')
-                .doc(NPO_ID)
-                .collection('my_events')
+            stream: Firestore.collection('users')
+                .doc(auth.currentUser?.uid)
+                .collection('application_list')
                 .doc(eventTitle)
                 .snapshots(),
             builder: (BuildContext context,
@@ -194,7 +74,7 @@ class _appliedEvent extends State<appliedEvent> {
                 // get the value of the role field
                 final eventDescription = snapshot.data!['Event_description'];
                 final eventLocation = snapshot.data!['Event_location'];
-                final neededVolunteers = snapshot.data!['Volunteers_no'];
+
 
                 return SafeArea(
                     child: SingleChildScrollView(

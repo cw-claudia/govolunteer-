@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'Apply/appliedEventDetails.dart';
 import 'event_details.dart';
 
 class ApplicationList extends StatefulWidget {
@@ -65,7 +66,7 @@ class _ApplicationListState extends State<ApplicationList> {
                                Navigator.push(
                                    context,
                                    MaterialPageRoute(
-                                       builder: (context) => detailspage(
+                                       builder: (context) => appliedEvent(
                                          NPO_ID: snapshot.data[index]
                                              .data()['NPO_ID'],
                                          EventTitle: snapshot
